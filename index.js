@@ -753,12 +753,13 @@ collabForm.addEventListener("submit", (e) => {
   // Validate form entries
   const name = document.getElementById("collab-name").value.trim();
   const email = document.getElementById("collab-email").value.trim();
+  const phone = document.getElementById("collab-phone").value.trim();
   const org = document.getElementById("collab-org").value.trim();
   const role = document.getElementById("collab-role").value;
   const format = document.getElementById("collab-format").value;
   const message = document.getElementById("collab-message").value.trim();
 
-  if (!name || !email || !org || !role || !format || !message) {
+  if (!name || !email || !phone || !org || !role || !format || !message) {
     alert("Please fill in all required fields.");
     return;
   }
@@ -783,6 +784,7 @@ collabForm.addEventListener("submit", (e) => {
     const formData = new URLSearchParams();
     formData.append("name", name);
     formData.append("email", email);
+    formData.append("phone", phone);
     formData.append("org", org);
     formData.append("role", role);
     formData.append("format", format);
