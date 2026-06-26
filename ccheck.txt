@@ -1,0 +1,61 @@
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // Create headers if the sheet is empty
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(["Timestamp", "Full Name", "Email Address", "Institution / Organization", "Role", "Collaboration Format", "Phone Number", "Enquiry Message"]);
+  }
+  
+  var name = "";
+  var email = "";
+  var org = "";
+  var role = "";
+  var format = "";
+  var phone = "";
+  var message = "";
+  
+  // Parse incoming payload (supports both JSON and urlencoded params)
+  if (e.postData && e.postData.contents) {
+    try {
+      var data = JSON.parse(e.postData.contents);
+      name = data.name || "";
+      email = data.email || "";
+      org = data.org || "";
+      role = data.role || "";
+      format = data.format || "";
+      phone = data.phone || "";
+      message = data.message || "";
+    } catch(err) {
+      name = e.parameter.name || "";
+      email = e.parameter.email || "";
+      org = e.parameter.org || "";
+      role = e.parameter.role || "";
+      format = e.parameter.format || "";
+      phone = e.parameter.phone || "";
+      message = e.parameter.message || "";
+    }
+  } else {
+    name = e.parameter.name || "";
+    email = e.parameter.email || "";
+    org = e.parameter.org || "";
+    role = e.parameter.role || "";
+    format = e.parameter.format || "";
+    phone = e.parameter.phone || "";
+    message = e.parameter.message || "";
+  }
+  
+  // Append form row
+  sheet.appendRow([
+    new Date(), 
+    name, 
+    email, 
+    org, 
+    role, 
+    format, 
+    phone, 
+    message
+  ]);
+  
+  return ContentService.createTextOutput(JSON.stringify({ "result": "success" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
